@@ -1,0 +1,2 @@
+2026-03-16 14:29:51 [ERROR]: Failed to append user data: error:1E08010C:DECODER routines::unsupported
+2026-03-16 14:29:51 [ERROR]: Failed to save to Google Sheets: error:1E08010C:DECODER routines::unsupported

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "admin-1773668395400",
+    "fullName": "Admin AUTOLIVE",
+    "email": "autolive1.0.0@gmail.com",
+    "password": "$2a$10$h26XOHkN8Pf3nVc40jeDZOCPccz9aIwwNMhn8ty5un7jziUq/Oabe",
+    "phoneNumber": "08123456789",
+    "preferredLanguage": "en",
+    "role": "admin",
+    "createdAt": "2026-03-16T13:39:55.400Z"
+  },
+  {
+    "id": "admin-1773669531387",
+    "fullName": "Admin AUTOLIVE",
+    "email": "marga.jaya.bird.shop@gmail.com ",
+    "password": "$2a$10$GEPuNbo3wxBzNpo1yRU2iOSmk53wWKpsdvlTJrccAGSkOTIgyn68a",
+    "phoneNumber": "08123456789",
+    "preferredLanguage": "en",
+    "role": "admin",
+    "createdAt": "2026-03-16T13:58:51.387Z"
+  }
+]

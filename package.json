@@ -6,28 +6,37 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "node scripts/setup.js",
+    "create-admin": "node scripts/create-admin.js",
+    "generate-logo": "node scripts/generate-logo.js"
   },
-  "keywords": ["automation", "viral", "video", "social-media", "saas"],
+  "keywords": [
+    "automation",
+    "viral",
+    "video",
+    "social-media",
+    "saas"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "dotenv": "^16.3.1",
-    "axios": "^1.5.0",
+    "@octokit/rest": "^20.1.2",
+    "axios": "^1.13.6",
     "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
-    "cors": "^2.8.5",
-    "express-session": "^1.17.3",
+    "compression": "^1.8.1",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.1",
     "googleapis": "^126.0.1",
-    "@octokit/rest": "^20.0.2",
-    "node-cron": "^3.0.2",
-    "winston": "^3.10.0",
-    "express-validator": "^7.0.1",
-    "helmet": "^7.0.0",
-    "compression": "^1.7.4"
+    "helmet": "^7.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "node-cron": "^3.0.3",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.1.14"
   }
 }
