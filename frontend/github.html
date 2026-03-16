@@ -1,1 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOLIVE - GitHub Connection</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/120x40?text=AUTOLIVE" alt="AUTOLIVE" class="sidebar-logo">
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/platforms" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        Connect Platforms
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/automation" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        Automation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/github" class="nav-link">
+                        <span class="nav-icon">🐙</span>
+                        GitHub Connection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/n8n" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        n8n Integration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/guide" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Guide
+                    </a>
+                </li>
+            </ul>
 
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>GitHub Integration</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail">Loading...</span>
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="automation-container">
+                    <!-- Connection Status -->
+                    <div class="automation-section">
+                        <h3>Connection Status</h3>
+                        <div id="connectionStatus" class="connection-status disconnected">
+                            Not Connected
+                        </div>
+                    </div>
+
+                    <!-- Connect Form -->
+                    <div class="automation-section" id="connectSection">
+                        <h3>Connect to GitHub</h3>
+                        
+                        <form id="githubForm">
+                            <div class="form-group">
+                                <label for="githubToken">Personal Access Token</label>
+                                <input type="password" id="githubToken" required 
+                                       placeholder="Enter GitHub Personal Access Token">
+                                <small>Need a token? <a href="https://github.com/settings/tokens" target="_blank">Create one here</a></small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="repoOwner">Repository Owner</label>
+                                <input type="text" id="repoOwner" required 
+                                       placeholder="e.g., username or organization">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="repoName">Repository Name</label>
+                                <input type="text" id="repoName" required 
+                                       placeholder="e.g., autolive-backup">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">Connect Repository</button>
+                        </form>
+                    </div>
+
+                    <!-- Repository Info (shown when connected) -->
+                    <div class="automation-section" id="repoInfo" style="display: none;">
+                        <h3>Connected Repository</h3>
+                        
+                        <div class="repo-details">
+                            <p><strong>Repository:</strong> <span id="repoFullName">-</span></p>
+                            <p><strong>Last Commit:</strong> <span id="lastCommitMessage">-</span></p>
+                            <p><strong>Commit Date:</strong> <span id="lastCommitDate">-</span></p>
+                            <p><strong>Author:</strong> <span id="lastCommitAuthor">-</span></p>
+                        </div>
+                        
+                        <div class="repo-actions">
+                            <button id="backupBtn" class="btn btn-primary">📦 Backup Project Files</button>
+                            <button id="disconnectBtn" class="btn btn-danger">🔌 Disconnect</button>
+                        </div>
+                    </div>
+
+                    <!-- Backup History -->
+                    <div class="automation-section" id="backupHistory" style="display: none;">
+                        <h3>Backup History</h3>
+                        
+                        <div class="backup-list" id="backupList">
+                            <!-- Backup items will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- File Manager -->
+                    <div class="automation-section" id="fileManager" style="display: none;">
+                        <h3>File Manager</h3>
+                        
+                        <div class="file-upload">
+                            <h4>Create New File</h4>
+                            <div class="form-group">
+                                <label for="filePath">File Path</label>
+                                <input type="text" id="filePath" placeholder="e.g., scripts/automation.js">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fileContent">File Content</label>
+                                <textarea id="fileContent" rows="5" placeholder="Enter file content..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="commitMessage">Commit Message</label>
+                                <input type="text" id="commitMessage" placeholder="Enter commit message">
+                            </div>
+                            
+                            <button id="createFileBtn" class="btn btn-primary">Create File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        let githubConnected = false;
+        let repoInfo = null;
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/login/session');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = '/login';
+                    return false;
+                }
+                
+                document.getElementById('userEmail').textContent = data.user.email;
+                return true;
+            } catch (error) {
+                window.location.href = '/login';
+                return false;
+            }
+        }
+
+        // Check GitHub connection status
+        async function checkGitHubStatus() {
+            try {
+                const response = await fetch('/api/github/status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    githubConnected = data.connected;
+                    
+                    if (data.connected) {
+                        repoInfo = data.repository;
+                        updateUIForConnected(data);
+                    } else {
+                        updateUIForDisconnected();
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to check GitHub status:', error);
+                updateUIForDisconnected();
+            }
+        }
+
+        // Update UI for connected state
+        function updateUIForConnected(data) {
+            document.getElementById('connectionStatus').textContent = 'Connected to ' + data.repository.fullName;
+            document.getElementById('connectionStatus').className = 'connection-status connected';
+            
+            document.getElementById('connectSection').style.display = 'none';
+            document.getElementById('repoInfo').style.display = 'block';
+            document.getElementById('backupHistory').style.display = 'block';
+            document.getElementById('fileManager').style.display = 'block';
+            
+            document.getElementById('repoFullName').textContent = data.repository.fullName;
+            
+            if (data.lastCommit) {
+                document.getElementById('lastCommitMessage').textContent = data.lastCommit.message;
+                document.getElementById('lastCommitDate').textContent = AUTOLIVE.formatDate(data.lastCommit.date);
+                document.getElementById('lastCommitAuthor').textContent = data.lastCommit.author;
+            }
+            
+            // Load backup history
+            loadBackupHistory();
+        }
+
+        // Update UI for disconnected state
+        function updateUIForDisconnected() {
+            document.getElementById('connectionStatus').textContent = 'Not Connected';
+            document.getElementById('connectionStatus').className = 'connection-status disconnected';
+            
+            document.getElementById('connectSection').style.display = 'block';
+            document.getElementById('repoInfo').style.display = 'none';
+            document.getElementById('backupHistory').style.display = 'none';
+            document.getElementById('fileManager').style.display = 'none';
+        }
+
+        // Connect to GitHub
+        document.getElementById('githubForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('githubToken').value;
+            const repoOwner = document.getElementById('repoOwner').value;
+            const repoName = document.getElementById('repoName').value;
+            
+            try {
+                const response = await fetch('/api/github/connect', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token, repoOwner, repoName })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('GitHub connected successfully!', 'success');
+                    await checkGitHubStatus();
+                } else {
+                    AUTOLIVE.showNotification('Failed to connect: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to connect to GitHub', 'error');
+            }
+        });
+
+        // Backup files
+        document.getElementById('backupBtn').addEventListener('click', async () => {
+            // This would collect files to backup
+            const files = [
+                {
+                    path: 'backend/server.js',
+                    content: '// Server backup from AUTOLIVE'
+                },
+                {
+                    path: 'config/automation.json',
+                    content: JSON.stringify(getAutomationConfig(), null, 2)
+                }
+            ];
+            
+            try {
+                const response = await fetch('/api/github/backup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: files,
+                        commitMessage: 'Automated backup from AUTOLIVE'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Backup completed successfully!', 'success');
+                    loadBackupHistory();
+                } else {
+                    AUTOLIVE.showNotification('Backup failed: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to create backup', 'error');
+            }
+        });
+
+        // Create file
+        document.getElementById('createFileBtn').addEventListener('click', async () => {
+            const path = document.getElementById('filePath').value;
+            const content = document.getElementById('fileContent').value;
+            const message = document.getElementById('commitMessage').value || 'Add file via AUTOLIVE';
+            
+            if (!path || !content) {
+                AUTOLIVE.showNotification('Please enter file path and content', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/github/create-file', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ path, content, message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('File created successfully!', 'success');
+                    document.getElementById('filePath').value = '';
+                    document.getElementById('fileContent').value = '';
+                    document.getElementById('commitMessage').value = '';
+                    loadBackupHistory();
+                } else {
+                    AUTOLIVE.showNotification('Failed to create file: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to create file', 'error');
+            }
+        });
+
+        // Disconnect GitHub
+        document.getElementById('disconnectBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/github/disconnect', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('GitHub disconnected', 'success');
+                    githubConnected = false;
+                    updateUIForDisconnected();
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to disconnect', 'error');
+            }
+        });
+
+        // Load backup history
+        async function loadBackupHistory() {
+            // This would fetch backup history from GitHub
+            const backupList = document.getElementById('backupList');
+            
+            // Placeholder
+            backupList.innerHTML = `
+                <div class="activity-item">
+                    <span class="activity-icon">📦</span>
+                    <div class="activity-details">
+                        <div>Backup completed successfully</div>
+                        <small>${new Date().toLocaleString()}</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get automation config (placeholder)
+        function getAutomationConfig() {
+            return {
+                timestamp: new Date().toISOString(),
+                settings: {
+                    category: 'motivation',
+                    minViews: 10000
+                }
+            };
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', AUTOLIVE.logout);
+
+        // Initialize page
+        async function initPage() {
+            const authenticated = await checkAuth();
+            if (authenticated) {
+                await checkGitHubStatus();
+            }
+        }
+
+        initPage();
+    </script>
+</body>
+</html>
