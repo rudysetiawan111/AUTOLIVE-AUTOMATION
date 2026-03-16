@@ -1,1 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOLIVE - User Guide</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/120x40?text=AUTOLIVE" alt="AUTOLIVE" class="sidebar-logo">
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/platforms" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        Connect Platforms
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/automation" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        Automation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/github" class="nav-link">
+                        <span class="nav-icon">🐙</span>
+                        GitHub Connection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/n8n" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        n8n Integration
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/guide" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Guide
+                    </a>
+                </li>
+            </ul>
 
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>User Guide</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail">Loading...</span>
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="guide-container">
+                    <!-- Introduction -->
+                    <div class="guide-section">
+                        <h2>Welcome to AUTOLIVE</h2>
+                        <p>AUTOLIVE is a powerful automation platform that helps you discover viral videos, automatically generate clips, add subtitles and music, and upload content to multiple social media platforms. This guide will walk you through all the features and how to use them effectively.</p>
+                        
+                        <div class="guide-note">
+                            <strong>💡 Pro Tip:</strong> Start by connecting your social media accounts in the "Connect Platforms" section before setting up automation.
+                        </div>
+                    </div>
+
+                    <!-- Getting Started -->
+                    <div class="guide-section">
+                        <h2>Getting Started</h2>
+                        
+                        <h3>1. Create an Account</h3>
+                        <p>Visit the registration page and fill in your details. You'll need:</p>
+                        <ul>
+                            <li>Full Name</li>
+                            <li>Email address</li>
+                            <li>Password (minimum 6 characters)</li>
+                            <li>Phone number (optional)</li>
+                            <li>Preferred language</li>
+                        </ul>
+                        
+                        <h3>2. Login to Your Dashboard</h3>
+                        <p>After registration, login with your email and password. You can also use Google Login for quick access.</p>
+                        
+                        <h3>3. Navigate the Dashboard</h3>
+                        <p>The dashboard shows an overview of your connected platforms and recent activity. Use the sidebar menu to access different features:</p>
+                        <ul>
+                            <li><strong>Dashboard</strong> - Overview and statistics</li>
+                            <li><strong>Connect Platforms</strong> - Link your social media accounts</li>
+                            <li><strong>Automation</strong> - Configure video discovery and posting rules</li>
+                            <li><strong>Reports</strong> - View performance analytics</li>
+                            <li><strong>GitHub Connection</strong> - Backup your automation scripts</li>
+                            <li><strong>n8n Integration</strong> - Connect external workflows</li>
+                            <li><strong>Guide</strong> - You are here!</li>
+                        </ul>
+                    </div>
+
+                    <!-- Connecting Platforms -->
+                    <div class="guide-section">
+                        <h2>Connecting Social Media Platforms</h2>
+                        
+                        <h3>YouTube</h3>
+                        <ol>
+                            <li>Go to the <a href="/platforms">Connect Platforms</a> page</li>
+                            <li>Enter your YouTube API Key</li>
+                            <li>Enter your YouTube Channel ID</li>
+                            <li>Click "Test Connection" to verify</li>
+                            <li>Click "Save & Connect" to store credentials</li>
+                        </ol>
+                        <p><strong>Where to find these:</strong></p>
+                        <ul>
+                            <li>API Key: <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a> → Enable YouTube Data API v3</li>
+                            <li>Channel ID: Your YouTube channel URL (youtube.com/channel/CHANNEL_ID)</li>
+                        </ul>
+                        
+                        <h3>TikTok</h3>
+                        <ol>
+                            <li>Go to the Connect Platforms page</li>
+                            <li>Enter your TikTok Access Token</li>
+                            <li>Click "Test Connection" to verify</li>
+                            <li>Click "Save & Connect" to store credentials</li>
+                        </ol>
+                        
+                        <h3>Instagram & Facebook</h3>
+                        <p>Follow similar steps using the Instagram Access Token and Facebook Page Token from their respective developer portals.</p>
+                    </div>
+
+                    <!-- Setting Up Automation -->
+                    <div class="guide-section">
+                        <h2>Configuring Automation</h2>
+                        
+                        <h3>Video Discovery Settings</h3>
+                        <ol>
+                            <li>Navigate to the <a href="/automation">Automation</a> page</li>
+                            <li>Select a video category (Motivation, Technology, Sports, etc.)</li>
+                            <li>Set minimum views threshold (10K, 50K, 100K, etc.)</li>
+                            <li>Choose upload age filter (1h, 6h, 24h, 7d)</li>
+                        </ol>
+                        
+                        <h3>Video Processing Options</h3>
+                        <ul>
+                            <li><strong>Clip Duration:</strong> 15, 30, or 60 seconds</li>
+                            <li><strong>Background Music:</strong> Automatically adds copyright-safe music</li>
+                            <li><strong>Subtitles:</strong> Auto-generated with single or dual language options</li>
+                            <li><strong>Titles & Hashtags:</strong> Automatically generated based on content</li>
+                        </ul>
+                        
+                        <h3>Platform Selection</h3>
+                        <p>Choose which platforms to upload to (YouTube, TikTok, Instagram, Facebook). Make sure you've connected these platforms first!</p>
+                        
+                        <h3>Scheduling</h3>
+                        <p>Set how many videos to upload per day and at what times. You can select multiple upload times for each day.</p>
+                        
+                        <h3>Starting Automation</h3>
+                        <p>Click the green "START AUTOMATION" button to begin. The system will:</p>
+                        <ol>
+                            <li>Discover viral videos based on your criteria</li>
+                            <li>Generate clips with the specified duration</li>
+                            <li>Add background music and subtitles</li>
+                            <li>Generate titles and hashtags</li>
+                            <li>Upload to selected platforms at scheduled times</li>
+                        </ol>
+                    </div>
+
+                    <!-- Understanding Reports -->
+                    <div class="guide-section">
+                        <h2>Reading Reports</h2>
+                        
+                        <p>The <a href="/reports">Reports</a> page provides comprehensive analytics for all your uploaded content.</p>
+                        
+                        <h3>Summary Cards</h3>
+                        <ul>
+                            <li><strong>Total Videos:</strong> Number of videos uploaded</li>
+                            <li><strong>Total Views:</strong> Combined views across all platforms</li>
+                            <li><strong>Total Likes:</strong> Total engagement</li>
+                            <li><strong>Total Comments:</strong> Audience interaction</li>
+                            <li><strong>Subscriber Growth:</strong> New followers gained</li>
+                        </ul>
+                        
+                        <h3>Filtering Reports</h3>
+                        <p>Use the filters to narrow down data by:</p>
+                        <ul>
+                            <li>Platform (YouTube, TikTok, Instagram, Facebook)</li>
+                            <li>Time period (7 days, 30 days, 90 days, year, all time)</li>
+                        </ul>
+                        
+                        <h3>Exporting Data</h3>
+                        <p>Click the "Export CSV" button to download reports for offline analysis.</p>
+                    </div>
+
+                    <!-- GitHub Integration -->
+                    <div class="guide-section">
+                        <h2>GitHub Integration</h2>
+                        
+                        <p>The <a href="/github">GitHub Connection</a> page allows you to backup your automation scripts and configurations.</p>
+                        
+                        <h3>Connecting GitHub</h3>
+                        <ol>
+                            <li>Generate a Personal Access Token on GitHub (Settings → Developer settings → Personal access tokens)</li>
+                            <li>Enter your repository owner (username or organization)</li>
+                            <li>Enter your repository name</li>
+                            <li>Click "Connect Repository"</li>
+                        </ol>
+                        
+                        <h3>Features</h3>
+                        <ul>
+                            <li><strong>Backup Files:</strong> Save your automation configurations</li>
+                            <li><strong>File Manager:</strong> Create and edit files directly in your repository</li>
+                            <li><strong>View History:</strong> See recent commits and backups</li>
+                        </ul>
+                    </div>
+
+                    <!-- n8n Integration -->
+                    <div class="guide-section">
+                        <h2>n8n Integration</h2>
+                        
+                        <p>The <a href="/n8n">n8n Integration</a> page lets you connect external automation workflows.</p>
+                        
+                        <h3>What is n8n?</h3>
+                        <p>n8n is an open-source workflow automation tool that can connect hundreds of services. AUTOLIVE can trigger n8n workflows when automation starts.</p>
+                        
+                        <h3>Configuration</h3>
+                        <ol>
+                            <li>Enter your n8n webhook URL</li>
+                            <li>Optionally specify a workflow ID</li>
+                            <li>Add an API key if required</li>
+                            <li>Test the connection</li>
+                            <li>Save configuration</li>
+                        </ol>
+                        
+                        <h3>Testing Workflows</h3>
+                        <p>Use the workflow tester to send sample data and verify your n8n workflows are working correctly.</p>
+                    </div>
+
+                    <!-- Troubleshooting -->
+                    <div class="guide-section">
+                        <h2>Troubleshooting</h2>
+                        
+                        <h3>Common Issues</h3>
+                        
+                        <div class="guide-note">
+                            <strong>🔌 Platform Connection Failed</strong>
+                            <p>Verify your API keys and tokens are correct and have the necessary permissions. Some platforms require specific scopes to be enabled.</p>
+                        </div>
+                        
+                        <div class="guide-note">
+                            <strong>⚡ Automation Not Starting</strong>
+                            <p>Ensure you have at least one platform connected and have configured all required settings. Check that your scheduling times are valid.</p>
+                        </div>
+                        
+                        <div class="guide-note">
+                            <strong>📊 No Reports Showing</strong>
+                            <p>Reports only appear after videos have been uploaded. Give it some time after your first automation run.</p>
+                        </div>
+                        
+                        <div class="guide-note">
+                            <strong>🐙 GitHub Connection Issues</strong>
+                            <p>Make sure your Personal Access Token has the correct permissions (repo scope). Verify repository name and owner are correct.</p>
+                        </div>
+                    </div>
+
+                    <!-- Support -->
+                    <div class="guide-section">
+                        <h2>Need Help?</h2>
+                        
+                        <p>If you're still having issues, here are some resources:</p>
+                        
+                        <ul>
+                            <li><strong>Email:</strong> support@autolive.com</li>
+                            <li><strong>Documentation:</strong> docs.autolive.com</li>
+                            <li><strong>GitHub Issues:</strong> github.com/autolive/autolive/issues</li>
+                        </ul>
+                        
+                        <div class="guide-note">
+                            <strong>📱 Follow Us</strong>
+                            <p>Stay updated with new features and tips:</p>
+                            <p>Twitter: @autolive<br>LinkedIn: /company/autolive</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/login/session');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = '/login';
+                    return false;
+                }
+                
+                document.getElementById('userEmail').textContent = data.user.email;
+                return true;
+            } catch (error) {
+                window.location.href = '/login';
+                return false;
+            }
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', AUTOLIVE.logout);
+
+        // Initialize page
+        async function initPage() {
+            await checkAuth();
+        }
+
+        initPage();
+    </script>
+</body>
+</html>
