@@ -2,60 +2,476 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AUTOLIVE - Automation</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="sidebar">... (Copy Sidebar) ...</div>
-    <div class="main-content">
-        <div class="card">
-            <h2>Configure Automation</h2>
-            <form id="automationForm">
-                <label>Video Category</label>
-                <select id="category">
-                    <option value="motivation">Motivation</option>
-                    <option value="technology">Technology</option>
-                    <option value="gaming">Gaming</option>
-                </select>
-
-                <label>Min Views Filter</label>
-                <select id="views">
-                    <option value="10000">10,000+</option>
-                    <option value="100000">100,000+</option>
-                </select>
-
-                <label>Clip Length</label>
-                <select id="length">
-                    <option value="15">15 Seconds</option>
-                    <option value="60">60 Seconds (Shorts/Reels)</option>
-                </select>
-
-                <label>Subtitles</label>
-                <select id="subtitles">
-                    <option value="single">Single Language</option>
-                    <option value="dual">Dual Language</option>
-                </select>
-
-                <button type="button" onclick="startAutomation()">START AUTOMATION</button>
-            </form>
-        </div>
-    </div>
-    <script>
-        async function startAutomation() {
-            const data = {
-                category: document.getElementById('category').value,
-                views: document.getElementById('views').value,
-                length: document.getElementById('length').value
-            };
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/120x40?text=AUTOLIVE" alt="AUTOLIVE" class="sidebar-logo">
+            </div>
             
-            const res = await fetch('/api/automation/start', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-            alert(result.message);
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/platforms" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        Connect Platforms
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/automation" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        Automation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/github" class="nav-link">
+                        <span class="nav-icon">🐙</span>
+                        GitHub Connection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/n8n" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        n8n Integration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/guide" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Guide
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>Automation Configuration</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail">Loading...</span>
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="automation-container">
+                    <!-- Video Category Selection -->
+                    <div class="automation-section">
+                        <h3>Select Video Category</h3>
+                        <div class="filter-options">
+                            <select id="videoCategory" class="form-control">
+                                <option value="motivation">Motivation</option>
+                                <option value="technology">Technology</option>
+                                <option value="sports">Sports</option>
+                                <option value="gaming">Gaming</option>
+                                <option value="movies">Movies</option>
+                                <option value="music">Music</option>
+                                <option value="lifestyle">Lifestyle</option>
+                                <option value="business">Business</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Viral Filter Settings -->
+                    <div class="automation-section">
+                        <h3>Viral Filter Settings</h3>
+                        
+                        <div class="filter-options">
+                            <div class="form-group">
+                                <label>Minimum Views</label>
+                                <select id="minViews">
+                                    <option value="10000">10,000 views</option>
+                                    <option value="50000">50,000 views</option>
+                                    <option value="100000">100,000 views</option>
+                                    <option value="500000">500,000 views</option>
+                                    <option value="1000000">1,000,000 views</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Upload Age</label>
+                                <select id="uploadAge">
+                                    <option value="1h">Last hour</option>
+                                    <option value="6h">Last 6 hours</option>
+                                    <option value="24h">Last 24 hours</option>
+                                    <option value="7d">Last 7 days</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Processing Options -->
+                    <div class="automation-section">
+                        <h3>Video Processing Options</h3>
+                        
+                        <div class="filter-options">
+                            <div class="form-group">
+                                <label>Clip Duration</label>
+                                <select id="clipDuration">
+                                    <option value="15">15 seconds</option>
+                                    <option value="30">30 seconds</option>
+                                    <option value="60">60 seconds</option>
+                                </select>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="addMusic" checked>
+                                    Add background music (copyright-safe)
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="generateSubtitles" checked>
+                                    Generate subtitles automatically
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="generateTitles" checked>
+                                    Generate titles automatically
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="generateHashtags" checked>
+                                    Generate hashtags automatically
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="subtitleOptions" style="margin-top: 15px;">
+                            <label>Subtitle Options</label>
+                            <select id="subtitleType">
+                                <option value="single">Single language</option>
+                                <option value="dual">Dual language</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Upload Platforms -->
+                    <div class="automation-section">
+                        <h3>Select Upload Platforms</h3>
+                        
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="platformYoutube" value="youtube" checked>
+                                YouTube
+                            </label>
+                            <label>
+                                <input type="checkbox" id="platformTiktok" value="tiktok" checked>
+                                TikTok
+                            </label>
+                            <label>
+                                <input type="checkbox" id="platformInstagram" value="instagram">
+                                Instagram
+                            </label>
+                            <label>
+                                <input type="checkbox" id="platformFacebook" value="facebook">
+                                Facebook
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Automation Scheduling -->
+                    <div class="automation-section">
+                        <h3>Automation Scheduling</h3>
+                        
+                        <div class="scheduling-options">
+                            <div class="form-group">
+                                <label>Videos per day</label>
+                                <input type="number" id="videosPerDay" min="1" max="50" value="5">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Upload Times</label>
+                                <select id="uploadTimes" multiple size="3">
+                                    <option value="09:00" selected>09:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="15:00">03:00 PM</option>
+                                    <option value="18:00">06:00 PM</option>
+                                    <option value="21:00">09:00 PM</option>
+                                </select>
+                                <small>Hold Ctrl/Cmd to select multiple</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="automation-actions">
+                        <button id="startAutomationBtn" class="btn btn-success btn-large">
+                            ▶️ START AUTOMATION
+                        </button>
+                        <button id="stopAutomationBtn" class="btn btn-danger btn-large" style="display: none;">
+                            ⏹️ STOP AUTOMATION
+                        </button>
+                        <button id="saveConfigBtn" class="btn btn-primary btn-large">
+                            💾 Save Configuration
+                        </button>
+                    </div>
+
+                    <!-- Automation Status -->
+                    <div class="automation-status" id="automationStatus">
+                        <p>Status: <span id="statusText" class="status-inactive">Inactive</span></p>
+                        <p id="statusDetails"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        let currentConfig = null;
+        let isAutomationRunning = false;
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/login/session');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = '/login';
+                    return false;
+                }
+                
+                document.getElementById('userEmail').textContent = data.user.email;
+                return true;
+            } catch (error) {
+                window.location.href = '/login';
+                return false;
+            }
         }
+
+        // Load automation status
+        async function loadAutomationStatus() {
+            try {
+                const response = await fetch('/api/automation/status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    isAutomationRunning = data.status === 'active';
+                    updateUIForAutomationStatus();
+                    
+                    if (data.config) {
+                        currentConfig = data.config;
+                        populateFormWithConfig(data.config);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load automation status:', error);
+            }
+        }
+
+        // Update UI based on automation status
+        function updateUIForAutomationStatus() {
+            const startBtn = document.getElementById('startAutomationBtn');
+            const stopBtn = document.getElementById('stopAutomationBtn');
+            const statusText = document.getElementById('statusText');
+            
+            if (isAutomationRunning) {
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-block';
+                statusText.textContent = 'Active';
+                statusText.className = 'status-active';
+                document.getElementById('statusDetails').textContent = 'Automation is currently running';
+            } else {
+                startBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+                statusText.textContent = 'Inactive';
+                statusText.className = 'status-inactive';
+                document.getElementById('statusDetails').textContent = 'Configure and start automation';
+            }
+        }
+
+        // Populate form with saved config
+        function populateFormWithConfig(config) {
+            if (config.category) {
+                document.getElementById('videoCategory').value = config.category;
+            }
+            if (config.minViews) {
+                document.getElementById('minViews').value = config.minViews;
+            }
+            if (config.uploadAge) {
+                document.getElementById('uploadAge').value = config.uploadAge;
+            }
+            if (config.clipDuration) {
+                document.getElementById('clipDuration').value = config.clipDuration;
+            }
+            if (config.subtitleType) {
+                document.getElementById('subtitleType').value = config.subtitleType;
+            }
+            if (config.videosPerDay) {
+                document.getElementById('videosPerDay').value = config.videosPerDay;
+            }
+            
+            // Checkboxes
+            document.getElementById('addMusic').checked = config.addMusic !== false;
+            document.getElementById('generateSubtitles').checked = config.generateSubtitles !== false;
+            document.getElementById('generateTitles').checked = config.generateTitles !== false;
+            document.getElementById('generateHashtags').checked = config.generateHashtags !== false;
+            
+            // Platforms
+            if (config.platforms) {
+                document.getElementById('platformYoutube').checked = config.platforms.includes('youtube');
+                document.getElementById('platformTiktok').checked = config.platforms.includes('tiktok');
+                document.getElementById('platformInstagram').checked = config.platforms.includes('instagram');
+                document.getElementById('platformFacebook').checked = config.platforms.includes('facebook');
+            }
+            
+            // Upload times
+            if (config.uploadTimes) {
+                const select = document.getElementById('uploadTimes');
+                Array.from(select.options).forEach(option => {
+                    option.selected = config.uploadTimes.includes(option.value);
+                });
+            }
+        }
+
+        // Get form data
+        function getFormData() {
+            const platforms = [];
+            if (document.getElementById('platformYoutube').checked) platforms.push('youtube');
+            if (document.getElementById('platformTiktok').checked) platforms.push('tiktok');
+            if (document.getElementById('platformInstagram').checked) platforms.push('instagram');
+            if (document.getElementById('platformFacebook').checked) platforms.push('facebook');
+            
+            const uploadTimes = Array.from(document.getElementById('uploadTimes').selectedOptions).map(opt => opt.value);
+            
+            return {
+                category: document.getElementById('videoCategory').value,
+                minViews: parseInt(document.getElementById('minViews').value),
+                uploadAge: document.getElementById('uploadAge').value,
+                clipDuration: parseInt(document.getElementById('clipDuration').value),
+                addMusic: document.getElementById('addMusic').checked,
+                generateSubtitles: document.getElementById('generateSubtitles').checked,
+                subtitleType: document.getElementById('subtitleType').value,
+                generateTitles: document.getElementById('generateTitles').checked,
+                generateHashtags: document.getElementById('generateHashtags').checked,
+                platforms: platforms,
+                videosPerDay: parseInt(document.getElementById('videosPerDay').value),
+                uploadTimes: uploadTimes
+            };
+        }
+
+        // Save configuration
+        document.getElementById('saveConfigBtn').addEventListener('click', async () => {
+            const config = getFormData();
+            
+            if (config.platforms.length === 0) {
+                AUTOLIVE.showNotification('Please select at least one platform', 'warning');
+                return;
+            }
+            
+            if (config.uploadTimes.length === 0) {
+                AUTOLIVE.showNotification('Please select at least one upload time', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/automation/configure', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Configuration saved successfully!', 'success');
+                    currentConfig = data.config;
+                } else {
+                    AUTOLIVE.showNotification('Failed to save configuration: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to save configuration', 'error');
+            }
+        });
+
+        // Start automation
+        document.getElementById('startAutomationBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/automation/start', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Automation started successfully!', 'success');
+                    isAutomationRunning = true;
+                    updateUIForAutomationStatus();
+                } else {
+                    AUTOLIVE.showNotification('Failed to start automation: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to start automation', 'error');
+            }
+        });
+
+        // Stop automation
+        document.getElementById('stopAutomationBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/automation/stop', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Automation stopped successfully!', 'success');
+                    isAutomationRunning = false;
+                    updateUIForAutomationStatus();
+                } else {
+                    AUTOLIVE.showNotification('Failed to stop automation: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to stop automation', 'error');
+            }
+        });
+
+        // Show/hide subtitle options based on checkbox
+        document.getElementById('generateSubtitles').addEventListener('change', (e) => {
+            document.getElementById('subtitleOptions').style.display = e.target.checked ? 'block' : 'none';
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', AUTOLIVE.logout);
+
+        // Initialize page
+        async function initPage() {
+            const authenticated = await checkAuth();
+            if (authenticated) {
+                await loadAutomationStatus();
+            }
+        }
+
+        initPage();
     </script>
 </body>
 </html>
