@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOLIVE - n8n Integration</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/120x40?text=AUTOLIVE" alt="AUTOLIVE" class="sidebar-logo">
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/platforms" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        Connect Platforms
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/automation" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        Automation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/github" class="nav-link">
+                        <span class="nav-icon">🐙</span>
+                        GitHub Connection
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/n8n" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        n8n Integration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/guide" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Guide
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>n8n Automation Integration</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail">Loading...</span>
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="automation-container">
+                    <!-- What is n8n? -->
+                    <div class="automation-section">
+                        <h3>About n8n Integration</h3>
+                        <p>n8n is a workflow automation tool that allows you to connect various services and create complex automation workflows. AUTOLIVE can trigger n8n workflows when automation starts.</p>
+                    </div>
+
+                    <!-- Connection Status -->
+                    <div class="automation-section">
+                        <h3>Connection Status</h3>
+                        <div id="n8nStatus" class="connection-status disconnected">
+                            Not Configured
+                        </div>
+                    </div>
+
+                    <!-- Configuration Form -->
+                    <div class="automation-section" id="n8nConfigSection">
+                        <h3>Configure n8n Connection</h3>
+                        
+                        <form id="n8nForm">
+                            <div class="form-group">
+                                <label for="webhookUrl">n8n Webhook URL</label>
+                                <input type="url" id="webhookUrl" required 
+                                       placeholder="https://your-n8n-instance.com/webhook/trigger">
+                                <small>Your n8n instance webhook endpoint</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="workflowId">Workflow ID (Optional)</label>
+                                <input type="text" id="workflowId" 
+                                       placeholder="e.g., automation-workflow">
+                                <small>Specific workflow to trigger (if not using default)</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="apiKey">API Key (Optional)</label>
+                                <input type="password" id="apiKey" 
+                                       placeholder="Enter n8n API key if required">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">Save Configuration</button>
+                            <button type="button" id="testConnectionBtn" class="btn btn-primary">Test Connection</button>
+                        </form>
+                    </div>
+
+                    <!-- Current Configuration (shown when configured) -->
+                    <div class="automation-section" id="currentConfig" style="display: none;">
+                        <h3>Current Configuration</h3>
+                        
+                        <div class="config-details">
+                            <p><strong>Webhook URL:</strong> <span id="configWebhookUrl">-</span></p>
+                            <p><strong>Workflow ID:</strong> <span id="configWorkflowId">-</span></p>
+                            <p><strong>Configured:</strong> <span id="configDate">-</span></p>
+                        </div>
+                        
+                        <div class="config-actions">
+                            <button id="editConfigBtn" class="btn btn-primary">Edit Configuration</button>
+                            <button id="testWorkflowBtn" class="btn btn-success">Test Workflow</button>
+                            <button id="disconnectN8nBtn" class="btn btn-danger">Disconnect</button>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Tester -->
+                    <div class="automation-section" id="workflowTester" style="display: none;">
+                        <h3>Test Workflow</h3>
+                        
+                        <div class="form-group">
+                            <label for="testData">Test Data (JSON)</label>
+                            <textarea id="testData" rows="5">{
+  "test": true,
+  "message": "Test from AUTOLIVE"
+}</textarea>
+                        </div>
+                        
+                        <button id="sendTestBtn" class="btn btn-primary">Send Test</button>
+                        
+                        <div id="testResult" style="margin-top: 20px; display: none;">
+                            <h4>Response:</h4>
+                            <pre id="responseData"></pre>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Status -->
+                    <div class="automation-section" id="workflowStatus" style="display: none;">
+                        <h3>Workflow Status</h3>
+                        
+                        <div class="status-indicator">
+                            <span id="workflowStatusText">Unknown</span>
+                        </div>
+                        
+                        <div class="workflow-stats">
+                            <p><strong>Last Run:</strong> <span id="lastRun">Never</span></p>
+                            <p><strong>Next Run:</strong> <span id="nextRun">-</span></p>
+                            <p><strong>Total Executions:</strong> <span id="totalExecutions">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        let n8nConfigured = false;
+        let n8nConfig = null;
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/login/session');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = '/login';
+                    return false;
+                }
+                
+                document.getElementById('userEmail').textContent = data.user.email;
+                return true;
+            } catch (error) {
+                window.location.href = '/login';
+                return false;
+            }
+        }
+
+        // Load n8n configuration
+        async function loadN8nConfig() {
+            try {
+                const response = await fetch('/api/n8n/config');
+                const data = await response.json();
+                
+                if (data.success) {
+                    n8nConfigured = data.configured;
+                    
+                    if (data.configured) {
+                        n8nConfig = data.config;
+                        updateUIForConfigured(data.config);
+                    } else {
+                        updateUIForNotConfigured();
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load n8n config:', error);
+                updateUIForNotConfigured();
+            }
+        }
+
+        // Update UI for configured state
+        function updateUIForConfigured(config) {
+            document.getElementById('n8nStatus').textContent = 'Configured';
+            document.getElementById('n8nStatus').className = 'connection-status connected';
+            
+            document.getElementById('n8nConfigSection').style.display = 'none';
+            document.getElementById('currentConfig').style.display = 'block';
+            document.getElementById('workflowTester').style.display = 'block';
+            document.getElementById('workflowStatus').style.display = 'block';
+            
+            document.getElementById('configWebhookUrl').textContent = config.webhookUrl;
+            document.getElementById('configWorkflowId').textContent = config.workflowId || 'Default';
+            document.getElementById('configDate').textContent = new Date(config.configuredAt).toLocaleString();
+        }
+
+        // Update UI for not configured state
+        function updateUIForNotConfigured() {
+            document.getElementById('n8nStatus').textContent = 'Not Configured';
+            document.getElementById('n8nStatus').className = 'connection-status disconnected';
+            
+            document.getElementById('n8nConfigSection').style.display = 'block';
+            document.getElementById('currentConfig').style.display = 'none';
+            document.getElementById('workflowTester').style.display = 'none';
+            document.getElementById('workflowStatus').style.display = 'none';
+        }
+
+        // Save n8n configuration
+        document.getElementById('n8nForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const webhookUrl = document.getElementById('webhookUrl').value;
+            const workflowId = document.getElementById('workflowId').value;
+            const apiKey = document.getElementById('apiKey').value;
+            
+            try {
+                const response = await fetch('/api/n8n/configure', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ webhookUrl, workflowId, apiKey })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('n8n configuration saved!', 'success');
+                    await loadN8nConfig();
+                } else {
+                    AUTOLIVE.showNotification('Failed to save: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to save configuration', 'error');
+            }
+        });
+
+        // Test connection
+        document.getElementById('testConnectionBtn').addEventListener('click', async () => {
+            AUTOLIVE.showNotification('Testing connection...', 'info');
+            
+            // This would test the connection
+            setTimeout(() => {
+                AUTOLIVE.showNotification('Connection test feature coming soon', 'info');
+            }, 1000);
+        });
+
+        // Edit configuration
+        document.getElementById('editConfigBtn').addEventListener('click', () => {
+            if (n8nConfig) {
+                document.getElementById('webhookUrl').value = n8nConfig.webhookUrl;
+                document.getElementById('workflowId').value = n8nConfig.workflowId || '';
+            }
+            
+            document.getElementById('n8nConfigSection').style.display = 'block';
+            document.getElementById('currentConfig').style.display = 'none';
+            document.getElementById('workflowTester').style.display = 'none';
+            document.getElementById('workflowStatus').style.display = 'none';
+        });
+
+        // Test workflow
+        document.getElementById('testWorkflowBtn').addEventListener('click', async () => {
+            try {
+                const testData = {
+                    test: true,
+                    message: 'Test from AUTOLIVE',
+                    timestamp: new Date().toISOString()
+                };
+                
+                const response = await fetch('/api/n8n/trigger', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        workflowId: n8nConfig?.workflowId,
+                        data: testData
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Workflow triggered successfully!', 'success');
+                    
+                    document.getElementById('testResult').style.display = 'block';
+                    document.getElementById('responseData').textContent = 
+                        JSON.stringify(data.result, null, 2);
+                } else {
+                    AUTOLIVE.showNotification('Failed to trigger workflow', 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to trigger workflow', 'error');
+            }
+        });
+
+        // Send custom test
+        document.getElementById('sendTestBtn').addEventListener('click', async () => {
+            try {
+                const testData = JSON.parse(document.getElementById('testData').value);
+                
+                const response = await fetch('/api/n8n/trigger', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        workflowId: n8nConfig?.workflowId,
+                        data: testData
+                    })
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('testResult').style.display = 'block';
+                document.getElementById('responseData').textContent = 
+                    JSON.stringify(data, null, 2);
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Test successful!', 'success');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Invalid JSON data', 'error');
+            }
+        });
+
+        // Disconnect n8n
+        document.getElementById('disconnectN8nBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/n8n/disconnect', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('n8n disconnected', 'success');
+                    n8nConfigured = false;
+                    updateUIForNotConfigured();
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to disconnect', 'error');
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', AUTOLIVE.logout);
+
+        // Initialize page
+        async function initPage() {
+            const authenticated = await checkAuth();
+            if (authenticated) {
+                await loadN8nConfig();
+            }
+        }
+
+        initPage();
+    </script>
+</body>
+</html>
