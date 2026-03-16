@@ -2,39 +2,301 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AUTOLIVE - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="sidebar">
-        <h2>AUTOLIVE</h2>
-        <ul class="nav-links">
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/platforms">Connect Platforms</a></li>
-            <li><a href="/automation">Automation</a></li>
-            <li><a href="/reports">Reports</a></li>
-            <li><a href="/github">GitHub Connection</a></li>
-            <li><a href="/guide">Guide</a></li>
-        </ul>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/120x40?text=AUTOLIVE" alt="AUTOLIVE" class="sidebar-logo">
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/platforms" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        Connect Platforms
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/automation" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        Automation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/github" class="nav-link">
+                        <span class="nav-icon">🐙</span>
+                        GitHub Connection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/guide" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Guide
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail">user@example.com</span>
+                    <div class="user-avatar">👤</div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="content">
+                <div class="slogan-banner">
+                    <p class="slogan-text">Automation platform for viral content discovery and multi-platform video publishing.</p>
+                </div>
+
+                <!-- Channel Overview Section -->
+                <section class="channel-overview">
+                    <h2>Channel Overview</h2>
+                    
+                    <div class="channel-cards">
+                        <!-- YouTube Card -->
+                        <div class="channel-card youtube-card">
+                            <div class="channel-header">
+                                <span class="channel-icon">▶️</span>
+                                <h3>YouTube</h3>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Channel Name:</span>
+                                    <span class="stat-value" id="youtubeName">Not Connected</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Subscribers:</span>
+                                    <span class="stat-value" id="youtubeSubscribers">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Videos:</span>
+                                    <span class="stat-value" id="youtubeVideos">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TikTok Card -->
+                        <div class="channel-card tiktok-card">
+                            <div class="channel-header">
+                                <span class="channel-icon">🎵</span>
+                                <h3>TikTok</h3>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Account Name:</span>
+                                    <span class="stat-value" id="tiktokName">Not Connected</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Followers:</span>
+                                    <span class="stat-value" id="tiktokFollowers">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Videos:</span>
+                                    <span class="stat-value" id="tiktokVideos">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quick Stats Section -->
+                <section class="quick-stats">
+                    <h2>Quick Statistics</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎥</div>
+                            <div class="stat-details">
+                                <span class="stat-number" id="totalVideos">0</span>
+                                <span class="stat-label">Total Videos</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">👁️</div>
+                            <div class="stat-details">
+                                <span class="stat-number" id="totalViews">0</span>
+                                <span class="stat-label">Total Views</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">❤️</div>
+                            <div class="stat-details">
+                                <span class="stat-number" id="totalLikes">0</span>
+                                <span class="stat-label">Total Likes</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">💬</div>
+                            <div class="stat-details">
+                                <span class="stat-number" id="totalComments">0</span>
+                                <span class="stat-label">Total Comments</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item loading">Loading activities...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
     </div>
 
-    <div class="main-content">
-        <header>
-            <h1>Dashboard Overview</h1>
-            <p>Automation platform for viral content discovery and multi-platform video publishing.</p>
-        </header>
+    <script src="/js/app.js"></script>
+    <script>
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/login/session');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = '/login';
+                    return false;
+                }
+                
+                document.getElementById('userEmail').textContent = data.user.email;
+                return true;
+            } catch (error) {
+                window.location.href = '/login';
+                return false;
+            }
+        }
 
-        <div class="card">
-            <h3>YouTube Statistics</h3>
-            <p>Channel: <span id="yt-name">My Channel</span></p>
-            <p>Subscribers: <strong id="yt-subs">12,400</strong></p>
-        </div>
+        // Load channel overview
+        async function loadChannelOverview() {
+            try {
+                const response = await fetch('/api/platforms/overview');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update YouTube stats
+                    document.getElementById('youtubeName').textContent = data.overview.youtube.name;
+                    document.getElementById('youtubeSubscribers').textContent = data.overview.youtube.subscribers.toLocaleString();
+                    document.getElementById('youtubeVideos').textContent = data.overview.youtube.videos.toLocaleString();
+                    
+                    // Update TikTok stats
+                    document.getElementById('tiktokName').textContent = data.overview.tiktok.name;
+                    document.getElementById('tiktokFollowers').textContent = data.overview.tiktok.followers.toLocaleString();
+                    document.getElementById('tiktokVideos').textContent = data.overview.tiktok.videos.toLocaleString();
+                }
+            } catch (error) {
+                console.error('Failed to load channel overview:', error);
+            }
+        }
 
-        <div class="card">
-            <h3>TikTok Statistics</h3>
-            <p>Account: <span id="tt-name">@autolive_creator</span></p>
-            <p>Followers: <strong id="tt-followers">45,000</strong></p>
-        </div>
-    </div>
+        // Load recent activity
+        async function loadRecentActivity() {
+            try {
+                const response = await fetch('/api/reports');
+                const data = await response.json();
+                
+                const activityList = document.getElementById('activityList');
+                
+                if (data.success && data.reports.length > 0) {
+                    const recent = data.reports.slice(-5).reverse();
+                    
+                    activityList.innerHTML = recent.map(report => `
+                        <div class="activity-item">
+                            <div class="activity-icon">${getPlatformIcon(report.platform)}</div>
+                            <div class="activity-details">
+                                <div class="activity-title">${report.editedVideoTitle}</div>
+                                <div class="activity-meta">
+                                    <span>👁️ ${report.views.toLocaleString()}</span>
+                                    <span>❤️ ${report.likes.toLocaleString()}</span>
+                                    <span>💬 ${report.comments.toLocaleString()}</span>
+                                    <span>📅 ${report.date}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    activityList.innerHTML = '<div class="activity-item">No recent activity</div>';
+                }
+            } catch (error) {
+                console.error('Failed to load recent activity:', error);
+                document.getElementById('activityList').innerHTML = 
+                    '<div class="activity-item error">Failed to load activities</div>';
+            }
+        }
+
+        function getPlatformIcon(platform) {
+            const icons = {
+                'youtube': '▶️',
+                'tiktok': '🎵',
+                'instagram': '📷',
+                'facebook': '👍'
+            };
+            return icons[platform] || '📹';
+        }
+
+        // Logout function
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/login/logout', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        });
+
+        // Initialize dashboard
+        async function initDashboard() {
+            const authenticated = await checkAuth();
+            if (authenticated) {
+                await loadChannelOverview();
+                await loadRecentActivity();
+            }
+        }
+
+        initDashboard();
+    </script>
 </body>
 </html>
