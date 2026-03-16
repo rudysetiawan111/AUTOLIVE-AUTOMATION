@@ -1,1 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOLIVE - Connect Platforms</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/120x40?text=AUTOLIVE" alt="AUTOLIVE" class="sidebar-logo">
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/platforms" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        Connect Platforms
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/automation" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        Automation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/github" class="nav-link">
+                        <span class="nav-icon">🐙</span>
+                        GitHub Connection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/n8n" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        n8n Integration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/guide" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Guide
+                    </a>
+                </li>
+            </ul>
 
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-logout">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-title">
+                    <h1>Connect Platforms</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail">Loading...</span>
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <div class="platforms-grid">
+                    <!-- YouTube Card -->
+                    <div class="platform-card" id="youtubeCard">
+                        <div class="platform-header">
+                            <span class="platform-icon">▶️</span>
+                            <h3>YouTube</h3>
+                            <span class="connection-status disconnected" id="youtubeStatus">Disconnected</span>
+                        </div>
+                        
+                        <form class="platform-form" id="youtubeForm">
+                            <div class="form-group">
+                                <label for="youtubeApiKey">API Key</label>
+                                <input type="password" id="youtubeApiKey" name="youtubeApiKey" placeholder="Enter YouTube API Key">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="youtubeChannelId">Channel ID</label>
+                                <input type="text" id="youtubeChannelId" name="youtubeChannelId" placeholder="Enter YouTube Channel ID">
+                            </div>
+                            
+                            <div class="platform-actions">
+                                <button type="button" class="btn btn-primary" onclick="testConnection('youtube')">Test Connection</button>
+                                <button type="submit" class="btn btn-success">Save & Connect</button>
+                            </div>
+                        </form>
+                        
+                        <div class="platform-stats" id="youtubeStats" style="display: none;">
+                            <h4>Channel Stats</h4>
+                            <div class="stat-item">
+                                <span>Channel Name:</span>
+                                <span id="youtubeChannelName">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Subscribers:</span>
+                                <span id="youtubeSubscribers">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Total Videos:</span>
+                                <span id="youtubeTotalVideos">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TikTok Card -->
+                    <div class="platform-card" id="tiktokCard">
+                        <div class="platform-header">
+                            <span class="platform-icon">🎵</span>
+                            <h3>TikTok</h3>
+                            <span class="connection-status disconnected" id="tiktokStatus">Disconnected</span>
+                        </div>
+                        
+                        <form class="platform-form" id="tiktokForm">
+                            <div class="form-group">
+                                <label for="tiktokAccessToken">Access Token</label>
+                                <input type="password" id="tiktokAccessToken" name="tiktokAccessToken" placeholder="Enter TikTok Access Token">
+                            </div>
+                            
+                            <div class="platform-actions">
+                                <button type="button" class="btn btn-primary" onclick="testConnection('tiktok')">Test Connection</button>
+                                <button type="submit" class="btn btn-success">Save & Connect</button>
+                            </div>
+                        </form>
+                        
+                        <div class="platform-stats" id="tiktokStats" style="display: none;">
+                            <h4>Account Stats</h4>
+                            <div class="stat-item">
+                                <span>Account Name:</span>
+                                <span id="tiktokAccountName">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Followers:</span>
+                                <span id="tiktokFollowers">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Total Videos:</span>
+                                <span id="tiktokVideos">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instagram Card -->
+                    <div class="platform-card" id="instagramCard">
+                        <div class="platform-header">
+                            <span class="platform-icon">📷</span>
+                            <h3>Instagram</h3>
+                            <span class="connection-status disconnected" id="instagramStatus">Disconnected</span>
+                        </div>
+                        
+                        <form class="platform-form" id="instagramForm">
+                            <div class="form-group">
+                                <label for="instagramAccessToken">Access Token</label>
+                                <input type="password" id="instagramAccessToken" name="instagramAccessToken" placeholder="Enter Instagram Access Token">
+                            </div>
+                            
+                            <div class="platform-actions">
+                                <button type="button" class="btn btn-primary" onclick="testConnection('instagram')">Test Connection</button>
+                                <button type="submit" class="btn btn-success">Save & Connect</button>
+                            </div>
+                        </form>
+                        
+                        <div class="platform-stats" id="instagramStats" style="display: none;">
+                            <h4>Account Stats</h4>
+                            <div class="stat-item">
+                                <span>Username:</span>
+                                <span id="instagramUsername">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Account Type:</span>
+                                <span id="instagramAccountType">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Media Count:</span>
+                                <span id="instagramMediaCount">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Facebook Card -->
+                    <div class="platform-card" id="facebookCard">
+                        <div class="platform-header">
+                            <span class="platform-icon">👍</span>
+                            <h3>Facebook</h3>
+                            <span class="connection-status disconnected" id="facebookStatus">Disconnected</span>
+                        </div>
+                        
+                        <form class="platform-form" id="facebookForm">
+                            <div class="form-group">
+                                <label for="facebookPageToken">Page Access Token</label>
+                                <input type="password" id="facebookPageToken" name="facebookPageToken" placeholder="Enter Facebook Page Token">
+                            </div>
+                            
+                            <div class="platform-actions">
+                                <button type="button" class="btn btn-primary" onclick="testConnection('facebook')">Test Connection</button>
+                                <button type="submit" class="btn btn-success">Save & Connect</button>
+                            </div>
+                        </form>
+                        
+                        <div class="platform-stats" id="facebookStats" style="display: none;">
+                            <h4>Page Stats</h4>
+                            <div class="stat-item">
+                                <span>Page Name:</span>
+                                <span id="facebookPageName">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Followers:</span>
+                                <span id="facebookFollowers">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Page ID:</span>
+                                <span id="facebookPageId">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        let platformCredentials = {};
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/login/session');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = '/login';
+                    return false;
+                }
+                
+                document.getElementById('userEmail').textContent = data.user.email;
+                return true;
+            } catch (error) {
+                window.location.href = '/login';
+                return false;
+            }
+        }
+
+        // Load saved credentials
+        async function loadCredentials() {
+            try {
+                const response = await fetch('/api/platforms/credentials');
+                const data = await response.json();
+                
+                if (data.success) {
+                    platformCredentials = data.credentials;
+                    updateUIWithCredentials();
+                }
+            } catch (error) {
+                console.error('Failed to load credentials:', error);
+            }
+        }
+
+        // Update UI based on saved credentials
+        function updateUIWithCredentials() {
+            // YouTube
+            if (platformCredentials.youtube?.hasApiKey && platformCredentials.youtube?.hasChannelId) {
+                document.getElementById('youtubeStatus').textContent = 'Connected';
+                document.getElementById('youtubeStatus').className = 'connection-status connected';
+                document.getElementById('youtubeApiKey').value = '********';
+                document.getElementById('youtubeChannelId').value = platformCredentials.youtube.channelId || '********';
+                loadYouTubeStats();
+            }
+
+            // TikTok
+            if (platformCredentials.tiktok?.connected) {
+                document.getElementById('tiktokStatus').textContent = 'Connected';
+                document.getElementById('tiktokStatus').className = 'connection-status connected';
+                document.getElementById('tiktokAccessToken').value = '********';
+                loadTikTokStats();
+            }
+
+            // Instagram
+            if (platformCredentials.instagram?.connected) {
+                document.getElementById('instagramStatus').textContent = 'Connected';
+                document.getElementById('instagramStatus').className = 'connection-status connected';
+                document.getElementById('instagramAccessToken').value = '********';
+                loadInstagramStats();
+            }
+
+            // Facebook
+            if (platformCredentials.facebook?.connected) {
+                document.getElementById('facebookStatus').textContent = 'Connected';
+                document.getElementById('facebookStatus').className = 'connection-status connected';
+                document.getElementById('facebookPageToken').value = '********';
+                loadFacebookStats();
+            }
+        }
+
+        // Load YouTube stats
+        async function loadYouTubeStats() {
+            try {
+                const response = await fetch('/api/platforms/overview');
+                const data = await response.json();
+                
+                if (data.success && data.overview.youtube.name !== 'Not Connected') {
+                    document.getElementById('youtubeStats').style.display = 'block';
+                    document.getElementById('youtubeChannelName').textContent = data.overview.youtube.name;
+                    document.getElementById('youtubeSubscribers').textContent = AUTOLIVE.formatNumber(data.overview.youtube.subscribers);
+                    document.getElementById('youtubeTotalVideos').textContent = AUTOLIVE.formatNumber(data.overview.youtube.videos);
+                }
+            } catch (error) {
+                console.error('Failed to load YouTube stats:', error);
+            }
+        }
+
+        // Load TikTok stats
+        async function loadTikTokStats() {
+            try {
+                const response = await fetch('/api/platforms/overview');
+                const data = await response.json();
+                
+                if (data.success && data.overview.tiktok.name !== 'Not Connected') {
+                    document.getElementById('tiktokStats').style.display = 'block';
+                    document.getElementById('tiktokAccountName').textContent = data.overview.tiktok.name;
+                    document.getElementById('tiktokFollowers').textContent = AUTOLIVE.formatNumber(data.overview.tiktok.followers);
+                    document.getElementById('tiktokVideos').textContent = AUTOLIVE.formatNumber(data.overview.tiktok.videos);
+                }
+            } catch (error) {
+                console.error('Failed to load TikTok stats:', error);
+            }
+        }
+
+        // Load Instagram stats
+        async function loadInstagramStats() {
+            // Instagram stats would be loaded here
+            document.getElementById('instagramStats').style.display = 'block';
+            document.getElementById('instagramUsername').textContent = 'Connected Account';
+            document.getElementById('instagramAccountType').textContent = 'Business';
+            document.getElementById('instagramMediaCount').textContent = '0';
+        }
+
+        // Load Facebook stats
+        async function loadFacebookStats() {
+            // Facebook stats would be loaded here
+            document.getElementById('facebookStats').style.display = 'block';
+            document.getElementById('facebookPageName').textContent = 'Connected Page';
+            document.getElementById('facebookFollowers').textContent = '0';
+            document.getElementById('facebookPageId').textContent = '********';
+        }
+
+        // Test connection
+        async function testConnection(platform) {
+            try {
+                const response = await fetch(`/api/platforms/test/${platform}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification(`${platform} connection successful!`, 'success');
+                } else {
+                    AUTOLIVE.showNotification(`${platform} connection failed: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification(`Failed to test ${platform} connection`, 'error');
+            }
+        }
+
+        // Save YouTube credentials
+        document.getElementById('youtubeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const apiKey = document.getElementById('youtubeApiKey').value;
+            const channelId = document.getElementById('youtubeChannelId').value;
+            
+            if (apiKey === '********') {
+                AUTOLIVE.showNotification('Please enter your YouTube API Key', 'warning');
+                return;
+            }
+            
+            await saveCredentials({
+                youtubeApiKey: apiKey,
+                youtubeChannelId: channelId
+            });
+        });
+
+        // Save TikTok credentials
+        document.getElementById('tiktokForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('tiktokAccessToken').value;
+            
+            if (token === '********') {
+                AUTOLIVE.showNotification('Please enter your TikTok Access Token', 'warning');
+                return;
+            }
+            
+            await saveCredentials({
+                tiktokAccessToken: token
+            });
+        });
+
+        // Save Instagram credentials
+        document.getElementById('instagramForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('instagramAccessToken').value;
+            
+            if (token === '********') {
+                AUTOLIVE.showNotification('Please enter your Instagram Access Token', 'warning');
+                return;
+            }
+            
+            await saveCredentials({
+                instagramAccessToken: token
+            });
+        });
+
+        // Save Facebook credentials
+        document.getElementById('facebookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('facebookPageToken').value;
+            
+            if (token === '********') {
+                AUTOLIVE.showNotification('Please enter your Facebook Page Token', 'warning');
+                return;
+            }
+            
+            await saveCredentials({
+                facebookPageToken: token
+            });
+        });
+
+        // Save credentials to server
+        async function saveCredentials(credentials) {
+            try {
+                const response = await fetch('/api/platforms/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(credentials)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    AUTOLIVE.showNotification('Platform credentials saved successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    AUTOLIVE.showNotification('Failed to save credentials: ' + data.message, 'error');
+                }
+            } catch (error) {
+                AUTOLIVE.showNotification('Failed to save credentials', 'error');
+            }
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', AUTOLIVE.logout);
+
+        // Initialize page
+        async function initPage() {
+            const authenticated = await checkAuth();
+            if (authenticated) {
+                await loadCredentials();
+            }
+        }
+
+        initPage();
+    </script>
+</body>
+</html>
